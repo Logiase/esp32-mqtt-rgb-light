@@ -1,0 +1,37 @@
+menu "App"
+    menu "WIFI"
+        config WIFI_SSID
+            string "WIFI SSID"
+
+        config WIFI_PASSWORD
+            string "WIFI Password"
+    endmenu
+
+    menu "MQTT"
+        config MQTT_CLIENT_ID
+            string "MQTT Client ID"
+            default "ESP32S2-TEST"
+
+        config MQTT_URI
+            string "MQTT uri"
+
+        config MQTT_USERNAME
+            string "MQTT username"
+        
+        config MQTT_PASSWORD
+            string "MQTT password"
+
+        config MQTT_APP_STATUS_TOPIC
+            string "MQTT app status topic"
+            default "test/rgb_light"
+
+        config MQTT_APP_SET_TOPIC
+            string "MQTT app set topic"
+            default "test/rgb_light/set"
+            
+        config MQTT_APP_BUFFER_DEFAULT_SIZE
+            int "MQTT Buffer default size"
+            default (1024)
+    endmenu
+
+endmenu
