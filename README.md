@@ -7,3 +7,9 @@ A test prototype for a whole smart home solution with [Home-assistant](https://g
 ## TODO
 
 - [ ] Low power
+
+## Screenshots
+
+![home-assistant-cap1](assets/ha1.png)
+
+![console-cap1](assets/console1.png)
