@@ -17,6 +17,7 @@ bool state = false;
 void app_init()
 {
     ws2812 = ws2812_init(45, 1);
+    ws2812_reset(&ws2812);
 }
 
 void app_mqtt_init(esp_mqtt_client_handle_t client)
@@ -28,7 +29,7 @@ void app_send_status(esp_mqtt_client_handle_t client)
 {
     cJSON *pRoot = cJSON_CreateObject();
 
-    if (!state)
+    if (state == false)
     {
         cJSON_AddStringToObject(pRoot, "state", "OFF");
         esp_mqtt_client_publish(client, CONFIG_MQTT_APP_STATUS_TOPIC, cJSON_Print(pRoot), 0, 0, 0);
@@ -37,12 +38,13 @@ void app_send_status(esp_mqtt_client_handle_t client)
 
     cJSON_AddStringToObject(pRoot, "state", "ON");
     cJSON *pColor = cJSON_CreateObject();
+    cJSON_AddStringToObject(pRoot, "color_mode", "hs");
     cJSON_AddNumberToObject(pColor, "h", h);
     cJSON_AddNumberToObject(pColor, "s", s);
     cJSON_AddItemToObject(pRoot, "color", pColor);
     cJSON_AddNumberToObject(pRoot, "brightness", brightness);
 
-    esp_mqtt_client_publish(client, CONFIG_MQTT_APP_SET_TOPIC, cJSON_Print(pRoot), 0, 0, 0);
+    esp_mqtt_client_publish(client, CONFIG_MQTT_APP_STATUS_TOPIC, cJSON_Print(pRoot), 0, 0, 0);
     return;
 }
 
@@ -74,6 +76,7 @@ void app_receive_cmd(esp_mqtt_event_handle_t event)
     if (strcmp(pState->valuestring, "ON") != 0)
         goto wrong;
     
+    state = true;
     cJSON *pColor = cJSON_GetObjectItem(pRoot, "color");
     if (pColor)
     {
