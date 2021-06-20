@@ -36,6 +36,8 @@ void app_main()
     ESP_LOGI(TAG, "Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "IDF Version: %s", esp_get_idf_version());
 
+    app_init();
+
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
@@ -47,8 +49,6 @@ void app_main()
     wifi_init_sta();
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, false, true, portMAX_DELAY);
     mqtt_start();
-
-    app_init();
 }
 
 static void wifi_init_sta(void)

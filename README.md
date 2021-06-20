@@ -8,6 +8,21 @@ A test prototype for a whole smart home solution with [Home-assistant](https://g
 
 - [ ] Low power
 
+## Home assistant configuration
+
+```yaml
+light:
+  - platform: mqtt
+    name: "test RGB"
+    schema: json
+    state_topic: "test/rgb_light"
+    command_topic: "test/rgb_light/set"
+    brightness: true
+    brightness_scale: 100
+    color_mode: true
+    supported_color_modes: ["hs"]
+```
+
 ## Screenshots
 
 ![home-assistant-cap1](assets/ha1.png)
